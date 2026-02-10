@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Chat-gpt </title>
+    <title>Vision Pro AI — Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -18,27 +18,50 @@
         .ai-msg { background: #18181b; border: 1px solid #27272a; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
-        input::placeholder { color: #52525b; }
+        
+        /* Premium Join Box Glow */
+        .join-box {
+            background: linear-gradient(90deg, #1e1e24 0%, #2d2d3a 100%);
+            border: 1px solid #3b82f644;
+            transition: all 0.3s ease;
+        }
+        .join-box:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 <body class="dark overflow-hidden">
 
     <div id="loader">
         <div class="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p class="text-xs tracking-[0.3em] text-zinc-500 uppercase font-medium">chat-gpt Pro Initializing</p>
+        <p class="text-xs tracking-[0.3em] text-zinc-500 uppercase font-medium">Vision Pro Initializing</p>
     </div>
 
     <div class="flex h-full w-full relative">
         <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 glass border-r border-zinc-800/50 sidebar-transition -translate-x-full md:translate-x-0 flex flex-col">
             <div class="p-6">
-                <div class="flex items-center gap-3 mb-8">
-                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-blue-600/20">V</div>
-                    <span class="font-bold text-xl tracking-tight">Chat-gpt Pro</span>
+                <div class="flex flex-col gap-1 mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-blue-600/20">V</div>
+                        <span class="font-bold text-xl tracking-tight">Vision Pro</span>
+                    </div>
+                    <a href="https://t.me/AIwithMLbot" target="_blank" class="join-box mt-3 p-2.5 rounded-xl flex items-center justify-between group cursor-pointer">
+                        <div class="flex items-center gap-2">
+                            <span class="text-blue-400 text-lg">🤖</span>
+                            <span class="text-[11px] font-bold text-zinc-300 uppercase tracking-tight">Official Telegram Bot</span>
+                        </div>
+                        <span class="text-zinc-500 group-hover:text-white transition-colors">→</span>
+                    </a>
                 </div>
-                <button onclick="createNewChat()" class="w-full py-3 bg-zinc-100 hover:bg-white text-black rounded-xl font-bold transition-all active:scale-[0.97]">+ New Chat</button>
+                
+                <button onclick="createNewChat()" class="w-full py-3 bg-zinc-100 hover:bg-white text-black rounded-xl font-bold transition-all active:scale-[0.97] shadow-lg shadow-white/5">+ New Chat</button>
             </div>
+            
             <div id="chat-history-list" class="flex-1 overflow-y-auto px-4 space-y-2"></div>
-            <div class="p-4 mt-auto">
+            
+            <div class="p-4 mt-auto space-y-2">
                 <button onclick="openSettings()" class="w-full flex items-center gap-3 text-zinc-400 hover:text-white p-3 rounded-xl transition-all hover:bg-zinc-800/40">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
                     <span class="text-sm font-medium">Settings</span>
@@ -47,27 +70,30 @@
         </aside>
 
         <aside id="settings-sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-[#0c0c0e] border-r border-zinc-800 sidebar-transition -translate-x-full flex flex-col shadow-2xl">
-            <div class="p-6">
+            <div class="p-6 flex-1">
                 <div class="flex items-center justify-between mb-10">
-                    <h2 class="text-xl font-bold">Configuration</h2>
+                    <h2 class="text-xl font-bold">System Config</h2>
                     <button onclick="closeSettings()" class="text-zinc-500 hover:text-white p-2">✕</button>
                 </div>
                 <div class="space-y-6">
                     <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Access Token</label>
+                        <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Secret Key</label>
                         <input type="password" id="set-token" placeholder="••••••••••••••••" class="w-full bg-zinc-900/50 border border-zinc-800 p-3 rounded-xl outline-none focus:border-blue-500 transition-all text-sm">
-                        <p class="text-[9px] text-zinc-600 italic leading-relaxed">Hidden for security. Leave blank to use default.</p>
+                        <p class="text-[9px] text-zinc-600 italic">Hidden for safety. Default key active.</p>
                     </div>
                     <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Model Selection</label>
-                        <select id="set-model" class="w-full bg-zinc-900/50 border border-zinc-800 p-3 rounded-xl outline-none focus:border-blue-500 transition-all text-sm appearance-none">
-                            <option value="gpt-4o">GPT-4o (Vision)</option>
-                            <option value="gpt-4o-mini">GPT-4o Mini</option>
-                            <option value="meta-llama-3-70b-instruct">Llama 3 70B</option>
+                        <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Engine Mode</label>
+                        <select id="set-model" class="w-full bg-zinc-900/50 border border-zinc-800 p-3 rounded-xl outline-none focus:border-blue-500 transition-all text-sm">
+                            <option value="gpt-4o">GPT-4o (Visuals)</option>
+                            <option value="gpt-4o-mini">GPT-4o Mini (Fast)</option>
+                            <option value="meta-llama-3-70b-instruct">Llama 3 (Advanced)</option>
                         </select>
                     </div>
-                    <button onclick="saveSettings()" class="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold shadow-lg shadow-blue-600/10 hover:bg-blue-500 transition-all active:scale-95 mt-4">Save Configuration</button>
+                    <button onclick="saveSettings()" class="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold hover:bg-blue-500 transition-all active:scale-95 shadow-lg shadow-blue-600/10">Update Access</button>
                 </div>
+            </div>
+            <div class="p-6 border-t border-zinc-800/50">
+                <button onclick="clearAllData()" class="w-full py-3 bg-red-950/30 hover:bg-red-900/40 text-red-400 border border-red-900/50 rounded-xl text-xs font-bold transition-all">Clear All Chat Logs</button>
             </div>
         </aside>
 
@@ -75,24 +101,21 @@
             <header class="p-4 md:hidden border-b border-zinc-800/50 glass sticky top-0 z-30 flex items-center justify-between">
                 <button onclick="toggleSidebar()" class="p-2 text-zinc-400">☰</button>
                 <span class="font-bold tracking-tight text-blue-500">Vision Pro</span>
-                <div class="w-8"></div>
+                <a href="https://t.me/AIwithMLbot" target="_blank" class="p-2 text-blue-400">🤖</a>
             </header>
 
-            <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-12 space-y-8"></div>
+            <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-12 space-y-8 scroll-smooth"></div>
 
             <div class="p-6">
                 <div class="max-w-4xl mx-auto">
                     <div id="preview-box" class="flex flex-wrap gap-3 mb-4 hidden animate-in fade-in slide-in-from-bottom-2"></div>
-                    
                     <div class="relative glass rounded-2xl border border-zinc-800/80 p-2 shadow-2xl focus-within:border-zinc-600 transition-all">
                         <div class="flex items-end gap-2">
                             <button onclick="document.getElementById('file-in').click()" class="p-3 text-zinc-500 hover:text-zinc-200 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.51a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
                             </button>
                             <input type="file" id="file-in" class="hidden" multiple accept="image/*,.pdf,.txt" onchange="handleFiles(event)">
-                            
-                            <textarea id="user-input" rows="1" class="flex-1 bg-transparent border-none focus:ring-0 p-3 outline-none resize-none text-[15px] text-zinc-100 placeholder-zinc-600" placeholder="Type your message..."></textarea>
-                            
+                            <textarea id="user-input" rows="1" class="flex-1 bg-transparent border-none focus:ring-0 p-3 outline-none resize-none text-[15px] text-zinc-100 placeholder-zinc-600" placeholder="Analyze images or chat..."></textarea>
                             <button onclick="handleSend()" class="p-3 bg-zinc-100 text-black rounded-xl hover:bg-white transition-all shadow-xl active:scale-90">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                             </button>
@@ -106,7 +129,7 @@
     </div>
 
     <script>
-        // --- SECURE TOKEN SPLITTING ---
+        // --- SECURE TOKEN ---
         const _p1 = "github_pat_11BT7VRMI0LBWJ";
         const _p2 = "xUbOGGzx_j7QPRAjmoOcAYj0VlgL";
         const _p3 = "Nffw6V1g9cKrNe4LWRdda7jBYOLNPXXVHxVdlgP1";
@@ -117,13 +140,11 @@
         let state = { token: "", model: "gpt-4o", chats: [], currentChatId: null };
         let stagedFiles = [];
 
-        // --- CORE LOGIC ---
         function init() {
             try {
-                const saved = localStorage.getItem('gh-vision-pro-v2');
+                const saved = localStorage.getItem('gh-vision-pro-final');
                 if (saved) state = { ...state, ...JSON.parse(saved) };
                 if (!state.chats || state.chats.length === 0) createNewChat(false);
-                
                 document.getElementById('set-model').value = state.model;
                 renderSidebar();
                 renderChat();
@@ -132,32 +153,15 @@
                 setTimeout(() => {
                     document.getElementById('loader').style.opacity = '0';
                     setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
-                }, 1000);
+                }, 800);
             }
         }
 
         function getAuth() { return state.token || _mkey; }
-
-        function openSettings() {
-            document.getElementById('settings-sidebar').classList.remove('-translate-x-full');
-            document.getElementById('overlay').classList.remove('hidden');
-        }
-
-        function closeSettings() {
-            document.getElementById('settings-sidebar').classList.add('-translate-x-full');
-            if (window.innerWidth >= 768) document.getElementById('overlay').classList.add('hidden');
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('-translate-x-full');
-            document.getElementById('overlay').classList.toggle('hidden');
-        }
-
-        function closeAllSidebars() {
-            document.getElementById('sidebar').classList.add('-translate-x-full');
-            document.getElementById('settings-sidebar').classList.add('-translate-x-full');
-            document.getElementById('overlay').classList.add('hidden');
-        }
+        function openSettings() { document.getElementById('settings-sidebar').classList.remove('-translate-x-full'); document.getElementById('overlay').classList.remove('hidden'); }
+        function closeSettings() { document.getElementById('settings-sidebar').classList.add('-translate-x-full'); if (window.innerWidth >= 768) document.getElementById('overlay').classList.add('hidden'); }
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('-translate-x-full'); document.getElementById('overlay').classList.toggle('hidden'); }
+        function closeAllSidebars() { document.getElementById('sidebar').classList.add('-translate-x-full'); document.getElementById('settings-sidebar').classList.add('-translate-x-full'); document.getElementById('overlay').classList.add('hidden'); }
 
         function createNewChat(render = true) {
             const id = Date.now().toString();
@@ -176,16 +180,14 @@
             const chat = state.chats.find(c => c.id === state.currentChatId);
             let messageContent = [];
             if (text) messageContent.push({ type: "text", text: text });
-            
             stagedFiles.forEach(f => {
                 if (f.type === 'img') messageContent.push({ type: "image_url", image_url: { url: f.content } });
                 else if (text) messageContent[0].text += `\n\n[File: ${f.name}]\n${f.content}`;
             });
 
             chat.messages.push({ role: 'user', content: text || "Sent an attachment" });
-            
             const payload = [
-                { role: "system", content: "You are a professional AI assistant. Respond in markdown." },
+                { role: "system", content: "You are Vision Pro, a premium AI assistant." },
                 ...chat.messages.slice(0, -1).map(m => ({ role: m.role, content: m.content })),
                 { role: "user", content: messageContent.length > 0 ? messageContent : text }
             ];
@@ -205,8 +207,6 @@
                     body: JSON.stringify({ model: state.model, messages: payload, stream: true })
                 });
 
-                if (!res.ok) throw new Error("Connection Failed");
-
                 const reader = res.body.getReader();
                 const decoder = new TextDecoder();
                 let full = "";
@@ -220,8 +220,7 @@
                             const data = line.replace('data: ', '').trim();
                             if (data === '[DONE]') break;
                             try {
-                                const delta = JSON.parse(data).choices[0].delta.content || "";
-                                full += delta;
+                                full += JSON.parse(data).choices[0].delta.content || "";
                                 aiBox.innerHTML = marked.parse(full);
                                 document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
                             } catch(e) {}
@@ -231,12 +230,9 @@
                 chat.messages.push({ role: 'assistant', content: full });
                 saveState();
                 renderSidebar();
-            } catch (err) { 
-                aiBox.innerHTML = `<div class="text-red-400 p-2">⚠️ Error: Could not connect to GitHub Models. Please check your token.</div>`; 
-            }
+            } catch (err) { aiBox.innerHTML = "⚠️ Connection error. Please check token."; }
         }
 
-        // --- ATTACHMENT HELPERS ---
         async function handleFiles(e) {
             const files = Array.from(e.target.files);
             for (const f of files) {
@@ -266,7 +262,7 @@
                 d.className = "relative w-14 h-14 rounded-xl overflow-hidden border border-zinc-700 bg-zinc-800 shadow-lg group";
                 d.innerHTML = f.type === 'img' ? `<img src="${f.content}" class="w-full h-full object-cover">` : `<div class="flex items-center justify-center h-full text-[8px] text-zinc-500 font-bold">PDF</div>`;
                 const b = document.createElement('button');
-                b.className = "absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] shadow-lg opacity-0 group-hover:opacity-100 transition-opacity";
+                b.className = "absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-opacity";
                 b.innerHTML = "✕";
                 b.onclick = () => { stagedFiles.splice(i,1); updateFilePreview(); };
                 d.appendChild(b);
@@ -274,14 +270,12 @@
             });
         }
 
-        // --- UI RENDERERS ---
         function appendUI(role, content) {
             const d = document.createElement('div');
             d.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-3 duration-500`;
             const inner = document.createElement('div');
             inner.className = `max-w-[85%] p-4 rounded-2xl text-[14.5px] leading-relaxed ${role === 'user' ? 'user-msg text-white' : 'ai-msg prose prose-invert max-w-none shadow-sm'}`;
             inner.innerHTML = role === 'user' ? content : marked.parse(content);
-            d.appendChild(inner);
             document.getElementById('chat-container').appendChild(d);
             return inner;
         }
@@ -295,7 +289,7 @@
                     <div class="w-20 h-20 bg-zinc-900 rounded-[2.5rem] flex items-center justify-center text-4xl shadow-2xl border border-zinc-800 italic font-serif">v</div>
                     <div class="space-y-2">
                         <h2 class="text-3xl font-bold tracking-tight text-white">Vision Pro</h2>
-                        <p class="text-zinc-500 text-sm max-w-xs mx-auto">Upload images, summarize documents, or chat with GPT-4o.</p>
+                        <p class="text-zinc-500 text-sm max-w-xs mx-auto">Upload images, summarize documents, or chat with premium models.</p>
                     </div>
                 </div>`;
                 return;
@@ -316,16 +310,14 @@
             });
         }
 
-        function saveState() { localStorage.setItem('gh-vision-pro-v2', JSON.stringify(state)); }
-        
+        function clearAllData() { if(confirm("Permanently delete all chats?")) { state.chats = []; createNewChat(); } }
+        function saveState() { localStorage.setItem('gh-vision-pro-final', JSON.stringify(state)); }
         function saveSettings() { 
             const inp = document.getElementById('set-token').value.trim();
             if(inp !== "") state.token = inp;
             state.model = document.getElementById('set-model').value; 
-            saveState(); 
-            closeSettings(); 
-            renderChat();
-            document.getElementById('set-token').value = ""; // Clear for security
+            saveState(); closeSettings(); renderChat();
+            document.getElementById('set-token').value = "";
         }
 
         window.onload = init;
