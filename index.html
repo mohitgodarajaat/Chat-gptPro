@@ -25,8 +25,7 @@
         .typing-dots { display: flex; gap: 4px; padding: 10px; }
         .dot { width: 6px; height: 6px; background: #10a37f; border-radius: 50%; animation: bounce 1.4s infinite; }
         @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
-        /* Modal Style */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
     </style>
 </head>
 <body class="dark overflow-hidden flex h-full">
@@ -34,8 +33,8 @@
     <div id="settingModal" class="modal">
         <div class="bg-[#131316] border border-zinc-800 p-6 rounded-3xl w-80 shadow-2xl">
             <h2 class="text-lg font-bold mb-4">API Settings</h2>
-            <p class="text-xs text-zinc-500 mb-2">Update your GitHub Token</p>
-            <input type="password" id="customToken" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 text-sm text-white outline-none focus:border-[#10a37f]" placeholder="Enter new token...">
+            <p class="text-xs text-zinc-500 mb-2">Configure GitHub Token</p>
+            <input type="password" id="customToken" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 text-sm text-white outline-none focus:border-[#10a37f]" placeholder="Enter token...">
             <div class="flex gap-2 mt-6">
                 <button onclick="saveToken()" class="flex-1 py-3 bg-[#10a37f] text-white rounded-xl font-bold text-sm">Save</button>
                 <button onclick="closeModal()" class="flex-1 py-3 bg-zinc-800 text-white rounded-xl font-bold text-sm">Cancel</button>
@@ -57,18 +56,32 @@
             <p class="text-[10px] font-bold text-zinc-600 uppercase tracking-[0.2em] px-2 mb-4">Chat History</p>
             <div id="history-container" class="flex-1 overflow-y-auto pr-2"></div>
 
-            <div class="mt-4 pt-4 border-t border-zinc-800 space-y-2">
-                <button onclick="openModal()" class="w-full p-3 glass-card flex items-center gap-3 text-sm text-zinc-300 hover:text-white transition-all">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                    Settings
+            <div class="mt-4 pt-4 border-t border-zinc-800 space-y-4">
+                <button onclick="openModal()" class="w-full p-3 bg-zinc-900/50 rounded-xl flex items-center gap-3 text-xs text-zinc-400 hover:text-white transition-all border border-zinc-800">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    API Settings
                 </button>
+
+                <p class="text-[10px] font-bold text-zinc-600 uppercase tracking-[0.2em] px-2">Official Channel</p>
+                <a href="https://t.me/AIwithMLbot" target="_blank" class="glass-card p-4 block group no-underline">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-[#0088cc]/20 flex items-center justify-center text-[#0088cc]">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .24z"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white group-hover:text-[#10a37f] transition-colors">Telegram Bot</p>
+                            <p class="text-[10px] text-zinc-500">Join our community</p>
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
+        <div class="p-4 text-[9px] text-zinc-700 font-medium tracking-widest text-center">AI POWERED BY GITHUB INFERENCE</div>
     </aside>
 
     <main class="flex-1 flex flex-col relative w-full overflow-hidden">
         <header class="md:hidden flex items-center p-4 border-b border-zinc-800 bg-[#0c0c0e]">
-            <button onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')" class="p-2 text-white">☰</button>
+            <button onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')" class="p-2 text-white text-2xl">☰</button>
             <span class="ml-4 font-bold text-[#10a37f]">GPT-PRO</span>
         </header>
 
@@ -85,7 +98,7 @@
                 <button onclick="document.getElementById('fileIn').click()" class="p-3 text-zinc-500 hover:text-white transition-colors">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2.001 2.001 0 11-2.83-2.83l8.49-8.48"/></svg>
                 </button>
-                <textarea id="chatInput" rows="1" class="flex-1 bg-transparent border-none outline-none text-white p-3 resize-none max-h-40" placeholder="Type or upload..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();}"></textarea>
+                <textarea id="chatInput" rows="1" class="flex-1 bg-transparent border-none outline-none text-white p-3 resize-none max-h-40" placeholder="Type message..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();}"></textarea>
                 <button onclick="send()" class="p-3.5 bg-[#10a37f] text-white rounded-[18px] hover:bg-[#0d8a6a] transition-all">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
                 </button>
@@ -94,17 +107,12 @@
     </main>
 
     <script>
-        // HIDDEN TOKEN (Default)
         const _d = ["github_pat_11BT7VRMI0LBWJ", "xUbOGGzx_j7QPRAjmoOcAYj0VlgL", "Nffw6V1g9cKrNe4LWRdda7jBYOLNPXXVHxVdlgP1"].join('');
-        
         let currentChatId = null;
         let allChats = JSON.parse(localStorage.getItem('elite_history_v1') || '{}');
         let attachedFiles = [];
 
-        function getActiveToken() {
-            return localStorage.getItem('user_custom_token') || _d;
-        }
-
+        function getActiveToken() { return localStorage.getItem('user_custom_token') || _d; }
         function openModal() { document.getElementById('settingModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('settingModal').style.display = 'none'; }
         function saveToken() {
@@ -119,15 +127,14 @@
             Object.keys(allChats).reverse().forEach(id => {
                 const item = document.createElement('div');
                 item.className = `history-item ${id === currentChatId ? 'active-chat' : ''}`;
-                item.innerHTML = `<span onclick="loadChat('${id}')" class="truncate flex-1">${allChats[id].msgs[0]?.content.substring(0, 15) || "New Chat"}</span><button onclick="deleteChat('${id}')">×</button>`;
+                item.innerHTML = `<span onclick="loadChat('${id}')" class="truncate flex-1">${allChats[id].msgs[0]?.content.substring(0, 18) || "New Chat"}</span><button onclick="deleteChat('${id}')" class="ml-2">×</button>`;
                 container.appendChild(item);
             });
         }
 
         function loadChat(id) {
             currentChatId = id;
-            const scroller = document.getElementById('chat-scroller');
-            scroller.innerHTML = '';
+            document.getElementById('chat-scroller').innerHTML = '';
             document.getElementById('welcome')?.remove();
             allChats[id].msgs.forEach(m => appendMsg(m.role, m.content));
             if(window.innerWidth < 768) document.getElementById('sidebar').classList.add('-translate-x-full');
@@ -147,8 +154,8 @@
                 reader.onload = (ev) => {
                     attachedFiles.push({ type: f.type.startsWith('image/') ? 'img' : 'pdf', data: ev.target.result });
                     const div = document.createElement('div');
-                    div.className = "w-12 h-12 rounded-lg bg-zinc-800 border overflow-hidden";
-                    div.innerHTML = f.type.startsWith('image/') ? `<img src="${ev.target.result}" class="w-full h-full object-cover">` : `<div class="p-1 text-[8px]">PDF</div>`;
+                    div.className = "w-10 h-10 rounded bg-zinc-800 border overflow-hidden";
+                    div.innerHTML = f.type.startsWith('image/') ? `<img src="${ev.target.result}" class="w-full h-full object-cover">` : `<div class="p-1 text-[7px]">PDF</div>`;
                     preview.appendChild(div);
                 };
                 reader.readAsDataURL(f);
@@ -163,13 +170,11 @@
 
             document.getElementById('welcome')?.remove();
             document.getElementById('preview-area').innerHTML = '';
-            
             const userContent = txt + (attachedFiles.length ? ` [File Attached]` : '');
             appendMsg('user', userContent);
             
-            let payload = [{ type: "text", text: txt || "Analyze files" }];
+            let payload = [{ type: "text", text: txt || "Analyze" }];
             attachedFiles.forEach(f => { if(f.type==='img') payload.push({type:"image_url", image_url:{url:f.data}}); });
-            
             allChats[currentChatId].msgs.push({role: 'user', content: userContent, raw: payload});
             attachedFiles = [];
             input.value = '';
@@ -194,7 +199,7 @@
         function appendMsg(role, content) {
             const s = document.getElementById('chat-scroller');
             const d = document.createElement('div');
-            d.className = role === 'user' ? 'msg-user' : 'msg-ai prose prose-invert';
+            d.className = role === 'user' ? 'msg-user' : 'msg-ai prose prose-invert max-w-[85%]';
             d.innerHTML = (role === 'assistant' && !content.includes('dots')) ? marked.parse(content) : content;
             s.appendChild(d);
             s.scrollTop = s.scrollHeight;
