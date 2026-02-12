@@ -26,8 +26,6 @@
         .dot { width: 6px; height: 6px; background: #10a37f; border-radius: 50%; animation: bounce 1.4s infinite; }
         @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-        
-        /* Sidebar Backdrop Overlay */
         #sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 90; backdrop-filter: blur(2px); }
         #sidebar-overlay.active { display: block; }
     </style>
@@ -40,7 +38,7 @@
         <div class="bg-[#131316] border border-zinc-800 p-6 rounded-3xl w-80 shadow-2xl">
             <h2 class="text-lg font-bold mb-4">API Settings</h2>
             <p class="text-xs text-zinc-500 mb-2">Configure GitHub Token</p>
-            <input type="password" id="customToken" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 text-sm text-white outline-none focus:border-[#10a37f]" placeholder="Enter token...">
+            <input type="password" id="customToken" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 text-sm text-white outline-none focus:border-[#10a37f]" placeholder="Leave empty for default...">
             <div class="flex gap-2 mt-6">
                 <button onclick="saveToken()" class="flex-1 py-3 bg-[#10a37f] text-white rounded-xl font-bold text-sm">Save</button>
                 <button onclick="closeModal()" class="flex-1 py-3 bg-zinc-800 text-white rounded-xl font-bold text-sm">Cancel</button>
@@ -118,27 +116,27 @@
         let allChats = JSON.parse(localStorage.getItem('elite_history_v1') || '{}');
         let attachedFiles = [];
 
-        // SIDEBAR TOGGLE LOGIC
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
             const isHidden = sidebar.classList.contains('-translate-x-full');
-            
-            if (isHidden) {
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.add('active');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.remove('active');
-            }
+            if (isHidden) { sidebar.classList.remove('-translate-x-full'); overlay.classList.add('active'); }
+            else { sidebar.classList.add('-translate-x-full'); overlay.classList.remove('active'); }
         }
 
         function getActiveToken() { return localStorage.getItem('user_custom_token') || _d; }
         function openModal() { document.getElementById('settingModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('settingModal').style.display = 'none'; }
+        
         function saveToken() {
             const tk = document.getElementById('customToken').value.trim();
-            if(tk) { localStorage.setItem('user_custom_token', tk); alert("Token Updated!"); }
+            if(!tk) {
+                localStorage.removeItem('user_custom_token');
+                alert("Default token activated!");
+            } else {
+                localStorage.setItem('user_custom_token', tk);
+                alert("Token Updated!");
+            }
             closeModal();
         }
 
@@ -148,7 +146,7 @@
             Object.keys(allChats).reverse().forEach(id => {
                 const item = document.createElement('div');
                 item.className = `history-item ${id === currentChatId ? 'active-chat' : ''}`;
-                item.innerHTML = `<span onclick="loadChat('${id}')" class="truncate flex-1">${allChats[id].msgs[0]?.content.substring(0, 18) || "New Chat"}</span><button onclick="deleteChat('${id}')" class="ml-2 text-zinc-600 hover:text-red-500">×</button>`;
+                item.innerHTML = `<span onclick="loadChat('${id}')" class="truncate flex-1">${allChats[id].msgs[0]?.content.substring(0, 18) || "New Chat"}</span><button onclick="deleteChat('${id}')" class="ml-2">×</button>`;
                 container.appendChild(item);
             });
         }
@@ -158,7 +156,7 @@
             document.getElementById('chat-scroller').innerHTML = '';
             document.getElementById('welcome')?.remove();
             allChats[id].msgs.forEach(m => appendMsg(m.role, m.content));
-            if(window.innerWidth < 768) toggleSidebar(); 
+            if(window.innerWidth < 768 && !document.getElementById('sidebar').classList.contains('-translate-x-full')) toggleSidebar();
             renderHistory();
         }
 
@@ -188,20 +186,16 @@
             const txt = input.value.trim();
             if (!txt && !attachedFiles.length) return;
             if (!currentChatId) { currentChatId = 'chat_'+Date.now(); allChats[currentChatId] = {msgs:[]}; }
-
             document.getElementById('welcome')?.remove();
             document.getElementById('preview-area').innerHTML = '';
             const userContent = txt + (attachedFiles.length ? ` [File Attached]` : '');
             appendMsg('user', userContent);
-            
             let payload = [{ type: "text", text: txt || "Analyze" }];
             attachedFiles.forEach(f => { if(f.type==='img') payload.push({type:"image_url", image_url:{url:f.data}}); });
             allChats[currentChatId].msgs.push({role: 'user', content: userContent, raw: payload});
             attachedFiles = [];
             input.value = '';
-
             const aiDiv = appendMsg('assistant', '<div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>');
-            
             try {
                 const r = await fetch("https://models.inference.ai.azure.com/chat/completions", {
                     method: "POST",
